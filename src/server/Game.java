@@ -127,5 +127,10 @@ public class Game {
 			return new JSONObject("{\"ERROR\":\"4\"}"); //error 4 means id and auth don't match
 		}
 	}
+	
+	public void startup()
+	{
+		gameHook.startup();
+	}
 
 }

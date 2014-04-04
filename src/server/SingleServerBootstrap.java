@@ -2,6 +2,7 @@ package server;
 
 
 import game.AlienInvasion;
+import game.Tron;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -24,7 +25,7 @@ public class SingleServerBootstrap {
 	public static final int TIMEOUT_LENGTH = 60000; //Timeout used when people are trying to connect to a game, in milliseconds
 	private static final int port = 8000;
 	private static final int concurrentConnectionsAllowed = 4;
-	private static final Class<?> gameClass = AlienInvasion.class;
+	private static final Class<?> gameClass = Tron.class;
 	private static final String basePath = "/";
 
 
@@ -41,6 +42,8 @@ public class SingleServerBootstrap {
 			context.getFilters().add(new ParameterFilter());
 			server.setExecutor(Executors.newFixedThreadPool(concurrentConnectionsAllowed));
 			server.start();
+			Thread.sleep(10000);
+			//game.startfirst();
 		} catch (BindException e) {
 			if (Debugger.DEBUG) {
 				e.printStackTrace();
@@ -57,6 +60,9 @@ public class SingleServerBootstrap {
 				System.err.println("Exiting");
 			}
 			System.exit(-1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

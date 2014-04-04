@@ -79,5 +79,9 @@ public class GameManager {
 		return null;
 	}
 	
+	public void startfirst()
+	{
+		games.get(0).startup();
+	}
 
 }

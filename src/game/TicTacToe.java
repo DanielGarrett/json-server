@@ -8,7 +8,7 @@ import server.Debugger;
 import server.Scoreboard;
 
 public class TicTacToe implements GenGame {
-
+	public void startup() {}
 	private int board[][] = new int[3][3];
 	private int whoseTurn = 0;
 	private boolean gameRunning = false;
@@ -25,6 +25,8 @@ public class TicTacToe implements GenGame {
 		}
 		gameRunning = true;
 	}
+	
+	
 
 	@Override
 	public JSONObject getStatus() {

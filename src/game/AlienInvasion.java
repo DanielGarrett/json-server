@@ -146,5 +146,5 @@ public class AlienInvasion implements GenGame {
 		int elapsedTime = (int) (System.currentTimeMillis() - startTime);
 		return elapsedTime / tickTime;
 	}
-
+	public void startup() {}
 }

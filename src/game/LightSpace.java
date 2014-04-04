@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class LightSpace implements GenGame{
 	
 	private ArrayList<LightSpacePlayer> playerList = new ArrayList<LightSpacePlayer>();
-	
+	public void startup() {}
 	public LightSpace(){
 		
 		Map map = new Map();

@@ -264,4 +264,6 @@ public class Checkers implements GenGame {
 	public boolean doInit(int gId) {
 		return true;
 	}
+	
+	public void startup() {}
 }
