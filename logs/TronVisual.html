@@ -1,0 +1,106 @@
+
+<input type="file" id="fileinput" />
+<div id="display" style="display: none">
+<canvas id="canvas" style="display: block;border:1px solid #CCCCCC;"></canvas>
+<input type="button" value="|<<" onClick="stop();retreatFrame()" />
+<input type="button" value="<<" onClick="moveBack()" />
+<input type="button" value="||" onClick="stop()" />
+<input type="button" value=">>" onClick="moveForward()" />
+<input type="button" value=">>|" onClick="stop();advanceFrame()" />
+</div>
+<script type="text/javascript">
+	var height = 0;
+	var width = 0;
+	var currentframe = -1;
+	var lines;
+	var maxframe = 0;
+	var interval;
+	var delay = 100;
+	// colors = ['#CCCCCC', '#FF0088', '#FF0000', '#FF8800', '#8800FF', '#0000FF', '#0088FF', '#666666'];
+	var colors = ['#CCCCCC', '#FF6666', '#FF0000', '#990000', '#6666FF', '#0000FF', '#000099', '#666666'];
+	function readLog(evt) {
+	//Retrieve the first (and only!) File from the FileList object
+		var f = evt.target.files[0]; 
+
+		if (f) {
+			var r = new FileReader();
+			r.onload = function(e) { 
+				var contents = e.target.result;
+				//alert( "Got the file.\n" 
+				//	+ "name: " + f.name + "\n"
+				//	+ "type: " + f.type + "\n"
+				//	+ "size: " + f.size + " bytes\n"
+				//	+ "starts with: " + contents.substr(1, contents.indexOf("\n"))
+				//);  
+				lines = contents.split("\n");
+				width = parseInt(lines[0].split(' ')[0]);
+				height = parseInt(lines[0].split(' ')[1]);
+				document.getElementById('canvas').setAttribute("width",width.toString()+'0');
+				document.getElementById('canvas').setAttribute("height",height.toString()+'0');
+				maxframe = ((lines.length - 2) / height) - 1;
+				document.getElementById('display').style.display = "inline";
+				document.getElementById('fileinput').style.display = "none";
+				moveForward()
+			}
+			r.readAsText(f);
+		} 
+	}
+	
+	function displayFrame(frameNo)
+	{
+		var canvas = document.getElementById("canvas").getContext("2d");
+		var y = 0;
+		for(var i = getStartLine(frameNo); i < getStartLine(frameNo+1); i++)
+		{
+			var line = lines[i].split(' ');
+			for(var x = 0; x < line.length; x++)
+			{
+				canvas.fillStyle = colors[parseInt(line[x])];
+				canvas.fillRect(x*10,y*10,10,10)
+			}
+			y++;
+		}
+		currentframe = frameNo;
+	}
+	
+	function advanceFrame()
+	{
+		if(isValidFrame(currentframe+1))
+			displayFrame(currentframe+1);
+	}
+	
+	function retreatFrame()
+	{
+		if(isValidFrame(currentframe-1))
+			displayFrame(currentframe-1);
+	}
+	
+	function moveForward()
+	{
+		stop();
+		interval = setInterval(advanceFrame, delay);
+	}
+	
+	function moveBack()
+	{
+		stop();
+		interval = setInterval(retreatFrame, delay);
+	}
+	
+	function stop()
+	{
+		clearInterval(interval);
+	}
+	
+	function isValidFrame(frameNo)
+	{
+		return frameNo >= 0 && frameNo <= maxframe;
+	}
+	
+	function getStartLine(frameNo)
+	{
+		return frameNo * height + 1;
+	}
+
+	  document.getElementById('fileinput').addEventListener('change', readLog, false);
+</script>
